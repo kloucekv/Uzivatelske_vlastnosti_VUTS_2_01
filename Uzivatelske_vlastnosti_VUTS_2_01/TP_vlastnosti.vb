@@ -27,7 +27,7 @@ Public Class TP_vlastnosti
     Dim RegenPartHandler As New DPartDocEvents_RegenPostNotifyEventHandler(AddressOf SldWorks_RegenModel)
     Dim SavePartHandler As New DPartDocEvents_FileSaveNotifyEventHandler(AddressOf SldWorks_SaveModel)
     Dim SaveAsPartHandler As New DPartDocEvents_FileSaveAsNotifyEventHandler(AddressOf SldWorks_SaveModel)
-    Dim SavePartPostHandler As New DPartDocEvents_FileSavePostNotifyEventHandler(AddressOf SldWorks_SavePostModel)
+    Dim CutListUpdateHandler As New DPartDocEvents_WeldmentCutListUpdatePostNotifyEventHandler(AddressOf SldWorks_CutListUpdate)
     Dim DestroyAsmHandler As New DAssemblyDocEvents_DestroyNotifyEventHandler(AddressOf SldWorks_DestroyModel)
     Dim RegenAsmHandler As New DAssemblyDocEvents_RegenPostNotifyEventHandler(AddressOf SldWorks_RegenModel)
     Dim SaveAsmHandler As New DAssemblyDocEvents_FileSaveNotifyEventHandler(AddressOf SldWorks_SaveModel)
@@ -139,13 +139,13 @@ Public Class TP_vlastnosti
                     RemoveHandler swPartDoc.RegenPostNotify, RegenPartHandler
                     RemoveHandler swPartDoc.FileSaveNotify, SavePartHandler
                     RemoveHandler swPartDoc.FileSaveAsNotify, SaveAsPartHandler
-                    RemoveHandler swPartDoc.FileSavePostNotify, SavePartPostHandler
+                    RemoveHandler swPartDoc.WeldmentCutListUpdatePostNotify, CutListUpdateHandler
 
                     AddHandler swPartDoc.DestroyNotify, DestroyPartHandler
                     AddHandler swPartDoc.RegenPostNotify, RegenPartHandler
                     AddHandler swPartDoc.FileSaveNotify, SavePartHandler
                     AddHandler swPartDoc.FileSaveAsNotify, SaveAsPartHandler
-                    AddHandler swPartDoc.FileSavePostNotify, SavePartPostHandler
+                    AddHandler swPartDoc.WeldmentCutListUpdatePostNotify, CutListUpdateHandler
                 Catch ex As Exception
                     Console.WriteLine(ex.Message)
                 End Try
@@ -210,35 +210,15 @@ Public Class TP_vlastnosti
     End Function
 
     Private Function SldWorks_RegenModel() As Integer
-        RefreshTP()
+        'RefreshTP()
     End Function
 
     Private Function SldWorks_SaveModel() As Integer
         RefreshTP()
     End Function
 
-    Private Function SldWorks_SavePostModel() As Integer
-        RefreshTP()
-        If CB_polot.Text = "TABULKA PŘÍŘEZŮ" Then
-
-            Dim boolstatus As Boolean
-            Dim lErrors As Integer
-            Dim lWarnings As Integer
-
-            Try
-                RemoveHandler CType(swModel, PartDoc).FileSavePostNotify, SavePartPostHandler
-            Catch e As Exception
-                Console.WriteLine(e.Message)
-            End Try
-
-            boolstatus = swModel.Save3(swSaveAsOptions_e.swSaveAsOptions_AvoidRebuildOnSave, lErrors, lWarnings)
-
-            Try
-                AddHandler CType(swModel, PartDoc).FileSavePostNotify, SavePartPostHandler
-            Catch e As Exception
-                Console.WriteLine(e.Message)
-            End Try
-        End If
+    Private Function SldWorks_CutListUpdate() As Integer
+        LoadCutlist()
     End Function
 
     Private Sub RefreshTP()
@@ -728,105 +708,96 @@ Public Class TP_vlastnosti
 
     Private Sub LoadCutlist()
 
-        Dim swModelPath As String = swModel.GetPathName
+        Dim swModelDocExt As ModelDocExtension
+        Dim swCustProp As CustomPropertyManager
+        Dim swFeature As Feature
+        Dim poz As Integer
+        swModelDocExt = swModel.Extension
+        swCustProp = swModelDocExt.CustomPropertyManager("")
+        swFeature = swModel.FirstFeature
 
-        If Not swModelPath = "" Then
+        CutList_atr = ""
+        LV_tab.Items.Clear()
+        poz = 0
 
-            Dim swClassFact As SwDMClassFactory
-            Dim swDocMgr As SwDMApplication
-            Dim swDocument10 As SwDMDocument10
-            Dim swDocument13 As SwDMDocument13
-            Dim sDocFileName As String
-            Dim nDocType As SwDmDocumentType
-            Dim nRetVal As SwDmDocumentOpenError
-            Dim sLicenseKey As String
-            Dim swModelDocExt As ModelDocExtension
-            Dim swCustProp As CustomPropertyManager
+        Do While Not swFeature Is Nothing
+            If swFeature.GetTypeName = "CutListFolder" Then
 
-            sLicenseKey = "VUTSas:swdocmgr_general-11785-02051-00064-01025-08442-34307-00007-24048-16319-62087-18941-57666-39861-06344-22534-59614-60731-29281-39117-31771-62376-23321-21848-19793-52613-14337-25188-49754-58592-25690-25184-1083" ' Specify your SOLIDWORKS Document Manager license key
-            sDocFileName = swModelPath ' Specify your model document
-            nDocType = SwDmDocumentType.swDmDocumentPart
-            swClassFact = CreateObject("SwDocumentMgr.SwDMClassFactory")
+                Dim CustomPropMgr As CustomPropertyManager = swFeature.CustomPropertyManager
+                Dim CustomPropVal As String = ""
+                Dim CustomPropResolvedVal As String = ""
 
-            swDocMgr = swClassFact.GetApplication(sLicenseKey)
-            swDocument10 = swDocMgr.GetDocument(sDocFileName, nDocType, True, nRetVal)
-            swDocument13 = swDocument10
-            swModelDocExt = swModel.Extension
-            swCustProp = swModelDocExt.CustomPropertyManager("")
+                CustomPropMgr.Get2("LENGTH", CustomPropVal, CustomPropResolvedVal)
+                If Not CustomPropResolvedVal.Contains("@") Then
 
-            Dim vCutListItems As Object
-            vCutListItems = swDocument13.GetCutListItems2
+                    poz = poz + 1
 
-            If vCutListItems IsNot Nothing Then
+                    CustomPropMgr.Get2("QUANTITY", CustomPropVal, CustomPropResolvedVal)
+                    Dim p1 As String = CStr(CustomPropResolvedVal)
 
-                CutList_atr = ""
-                LV_tab.Items.Clear()
+                    CustomPropMgr.Get2("Název", CustomPropVal, CustomPropResolvedVal)
+                    Dim p2 As String = CustomPropResolvedVal
 
-                Dim Cutlist As SwDMCutListItem2
-                Dim I As Long
-                Dim nLink As String
-                Dim poz As Integer = 0
+                    CustomPropMgr.Get2("Polotovar", CustomPropVal, CustomPropResolvedVal)
+                    Dim p3 As String = CustomPropResolvedVal
 
-                nLink = ""
+                    CustomPropMgr.Get2("LENGTH", CustomPropVal, CustomPropResolvedVal)
+                    Dim p4 As String = CStr(CustomPropResolvedVal)
 
-                For I = 0 To UBound(vCutListItems)
-                    Cutlist = vCutListItems(I)
+                    CustomPropMgr.Get2("Norma - obj. číslo", CustomPropVal, CustomPropResolvedVal)
+                    Dim p5 As String = CustomPropResolvedVal
 
-                    If Not Cutlist.Quantity = 0 Then
-                        poz = poz + 1
-                        Dim p1 As String = Cutlist.Quantity
-                        Dim p2 As String = Cutlist.GetCustomPropertyValue2("Název", 30, nLink)
-                        Dim p3 As String = Cutlist.GetCustomPropertyValue2("Polotovar", 30, nLink)
-                        Dim p4 As String = Cutlist.GetCustomPropertyValue2("LENGTH", 30, nLink)
-                        Dim p5 As String = Cutlist.GetCustomPropertyValue2("Norma - obj. číslo", 30, nLink)
-                        Dim p6 As String = Cutlist.GetCustomPropertyValue2("Materiál", 30, nLink)
-                        Dim p7 As String = Cutlist.GetCustomPropertyValue2("Dodavatel", 30, nLink)
-                        Dim p8 As String = CStr(poz)
-                        Dim polozka As New ListViewItem
+                    CustomPropMgr.Get2("Materiál", CustomPropVal, CustomPropResolvedVal)
+                    Dim p6 As String = CustomPropResolvedVal
 
-                        polozka.Text = p1
-                        polozka.SubItems.Add(p2)
-                        polozka.SubItems.Add(p3)
-                        polozka.SubItems.Add(p4)
-                        polozka.SubItems.Add(p5)
-                        polozka.SubItems.Add(p6)
-                        polozka.SubItems.Add(p7)
-                        polozka.SubItems.Add(p8)
-                        LV_tab.Items.Add(polozka)
+                    CustomPropMgr.Get2("Dodvatel", CustomPropVal, CustomPropResolvedVal)
+                    Dim p7 As String = CustomPropResolvedVal
 
-                        For m As Integer = 0 To LV_tab.Columns.Count - 1 'For each column
-                            Dim a As Integer = 0
-                            Dim b As Integer = 0
+                    Dim p8 As String = CStr(poz)
+
+                    Dim polozka As New ListViewItem
+
+                    polozka.Text = p1
+                    polozka.SubItems.Add(p2)
+                    polozka.SubItems.Add(p3)
+                    polozka.SubItems.Add(p4)
+                    polozka.SubItems.Add(p5)
+                    polozka.SubItems.Add(p6)
+                    polozka.SubItems.Add(p7)
+                    polozka.SubItems.Add(p8)
+                    LV_tab.Items.Add(polozka)
+
+                    For m As Integer = 0 To LV_tab.Columns.Count - 1 'For each column
+                        Dim a As Integer = 0
+                        Dim b As Integer = 0
+                        LV_tab.Columns(m).Width = -1
+                        a = LV_tab.Columns(m).Width
+                        LV_tab.Columns(m).Width = -2
+                        b = LV_tab.Columns(m).Width
+                        If a > b Then
                             LV_tab.Columns(m).Width = -1
-                            a = LV_tab.Columns(m).Width
+                        Else
                             LV_tab.Columns(m).Width = -2
-                            b = LV_tab.Columns(m).Width
-                            If a > b Then
-                                LV_tab.Columns(m).Width = -1
-                            Else
-                                LV_tab.Columns(m).Width = -2
-                            End If
-                        Next m
-                        LV_tab.EndUpdate()
+                        End If
+                    Next m
+                    LV_tab.EndUpdate()
 
-                        CutList_atr = CutList_atr & p1 & "|" & p2 & "|" & p3 & "|" & p4 & "|" & p5 & "|" & p6 & "|" & p7 & "|" & p8 & ";"
-                    End If
-                Next
+                    CutList_atr = CutList_atr & p1 & "|" & p2 & "|" & p3 & "|" & p4 & "|" & p5 & "|" & p6 & "|" & p7 & "|" & p8 & ";"
 
-                swCustProp.Add3("Tabulka_prirezu", 30, CutList_atr, 1)
-
-            Else
-
-                MsgBox("Díl nemá tabulku přířezů nebo nebyl s tabulkou přířezů uložen")
-                RefreshTP()
+                End If
 
             End If
+            swFeature = swFeature.GetNextFeature
+        Loop
 
-        Else
-
-            MsgBox("Před použitím tabulky přířezů musí být díl uložen")
+        If poz = 0 Then
+            MsgBox("Díl nemá tabulku přířezů")
+            swCustProp.Add3("Polotovar", 30, "", 1)
             RefreshTP()
+
         End If
+
+        swCustProp.Add3("Tabulka_prirezu", 30, CutList_atr, 1)
 
     End Sub
 
