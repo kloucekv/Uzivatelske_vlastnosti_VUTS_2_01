@@ -750,7 +750,7 @@ Public Class TP_vlastnosti
                     CustomPropMgr.Get2("Materiál", CustomPropVal, CustomPropResolvedVal)
                     Dim p6 As String = CustomPropResolvedVal
 
-                    CustomPropMgr.Get2("Dodvatel", CustomPropVal, CustomPropResolvedVal)
+                    CustomPropMgr.Get2("Dodavatel", CustomPropVal, CustomPropResolvedVal)
                     Dim p7 As String = CustomPropResolvedVal
 
                     Dim p8 As String = CStr(poz)
