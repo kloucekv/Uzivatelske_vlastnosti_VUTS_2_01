@@ -173,6 +173,10 @@ Public Class TP_vlastnosti
 
         RefreshTP()
 
+        If CB_polot.Text = "TABULKA PŘÍŘEZŮ" Then
+            LoadCutlist()
+        End If
+
     End Function
 
     Private Function SldWorks_DestroyModel() As Integer
@@ -210,7 +214,8 @@ Public Class TP_vlastnosti
     End Function
 
     Private Function SldWorks_RegenModel() As Integer
-        'RefreshTP()
+        MsgBox("regen")
+        RefreshTP()
     End Function
 
     Private Function SldWorks_SaveModel() As Integer
@@ -218,6 +223,7 @@ Public Class TP_vlastnosti
     End Function
 
     Private Function SldWorks_CutListUpdate() As Integer
+        MsgBox("cutlistupdate")
         LoadCutlist()
     End Function
 
@@ -640,7 +646,6 @@ Public Class TP_vlastnosti
         Select Case DocType
             Case 1
                 If CB_polot.Text = "TABULKA PŘÍŘEZŮ" Then
-                    LoadCutlist()
                     SetPartTabSetings()
 
                 Else
