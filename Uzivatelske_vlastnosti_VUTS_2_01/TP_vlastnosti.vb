@@ -214,7 +214,7 @@ Public Class TP_vlastnosti
     End Function
 
     Private Function SldWorks_RegenModel() As Integer
-        MsgBox("regen")
+        'MsgBox("regen")
         RefreshTP()
     End Function
 
@@ -223,7 +223,7 @@ Public Class TP_vlastnosti
     End Function
 
     Private Function SldWorks_CutListUpdate() As Integer
-        MsgBox("cutlistupdate")
+        'MsgBox("cutlistupdate")
         LoadCutlist()
     End Function
 
