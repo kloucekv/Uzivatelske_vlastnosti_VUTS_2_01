@@ -23,13 +23,13 @@ Public Class TP_vlastnosti
     Dim cestaPozn As String
     Dim CutList_atr As String
     Dim ActiveDocChangeHandler As New DSldWorksEvents_ActiveDocChangeNotifyEventHandler(AddressOf SldWorks_ActiveDocChange)
-    Dim DestroyPartHandler As New DPartDocEvents_DestroyNotifyEventHandler(AddressOf SldWorks_DestroyModel)
-    Dim RegenPartHandler As New DPartDocEvents_RegenPostNotifyEventHandler(AddressOf SldWorks_RegenModel)
+    Dim DestroyPartHandler As New DPartDocEvents_DestroyNotify2EventHandler(AddressOf SldWorks_DestroyModel)
+    Dim RegenPartHandler As New DPartDocEvents_RegenPostNotify2EventHandler(AddressOf SldWorks_RegenModel)
     Dim SavePartHandler As New DPartDocEvents_FileSaveNotifyEventHandler(AddressOf SldWorks_SaveModel)
     Dim SaveAsPartHandler As New DPartDocEvents_FileSaveAsNotifyEventHandler(AddressOf SldWorks_SaveModel)
     Dim CutListUpdateHandler As New DPartDocEvents_WeldmentCutListUpdatePostNotifyEventHandler(AddressOf SldWorks_CutListUpdate)
-    Dim DestroyAsmHandler As New DAssemblyDocEvents_DestroyNotifyEventHandler(AddressOf SldWorks_DestroyModel)
-    Dim RegenAsmHandler As New DAssemblyDocEvents_RegenPostNotifyEventHandler(AddressOf SldWorks_RegenModel)
+    Dim DestroyAsmHandler As New DAssemblyDocEvents_DestroyNotify2EventHandler(AddressOf SldWorks_DestroyModel)
+    Dim RegenAsmHandler As New DAssemblyDocEvents_RegenPostNotify2EventHandler(AddressOf SldWorks_RegenModel)
     Dim SaveAsmHandler As New DAssemblyDocEvents_FileSaveNotifyEventHandler(AddressOf SldWorks_SaveModel)
     Dim SaveAsAsmHandler As New DAssemblyDocEvents_FileSaveAsNotifyEventHandler(AddressOf SldWorks_SaveModel)
 
@@ -135,14 +135,14 @@ Public Class TP_vlastnosti
                 Dim swPartDoc As PartDoc = CType(swModel, PartDoc) ' Convert swModel to part model type
                 Try
 
-                    RemoveHandler swPartDoc.DestroyNotify, DestroyPartHandler
-                    RemoveHandler swPartDoc.RegenPostNotify, RegenPartHandler
+                    RemoveHandler swPartDoc.DestroyNotify2, DestroyPartHandler
+                    RemoveHandler swPartDoc.RegenPostNotify2, RegenPartHandler
                     RemoveHandler swPartDoc.FileSaveNotify, SavePartHandler
                     RemoveHandler swPartDoc.FileSaveAsNotify, SaveAsPartHandler
                     RemoveHandler swPartDoc.WeldmentCutListUpdatePostNotify, CutListUpdateHandler
 
-                    AddHandler swPartDoc.DestroyNotify, DestroyPartHandler
-                    AddHandler swPartDoc.RegenPostNotify, RegenPartHandler
+                    AddHandler swPartDoc.DestroyNotify2, DestroyPartHandler
+                    AddHandler swPartDoc.RegenPostNotify2, RegenPartHandler
                     AddHandler swPartDoc.FileSaveNotify, SavePartHandler
                     AddHandler swPartDoc.FileSaveAsNotify, SaveAsPartHandler
                     AddHandler swPartDoc.WeldmentCutListUpdatePostNotify, CutListUpdateHandler
@@ -154,13 +154,13 @@ Public Class TP_vlastnosti
                 Dim swAsmDoc As AssemblyDoc = CType(swModel, AssemblyDoc) ' Convert swModel to assembly model type
                 Try
 
-                    RemoveHandler swAsmDoc.DestroyNotify, DestroyAsmHandler
-                    RemoveHandler swAsmDoc.RegenPostNotify, RegenAsmHandler
+                    RemoveHandler swAsmDoc.DestroyNotify2, DestroyAsmHandler
+                    RemoveHandler swAsmDoc.RegenPostNotify2, RegenAsmHandler
                     RemoveHandler swAsmDoc.FileSaveNotify, SaveAsmHandler
                     RemoveHandler swAsmDoc.FileSaveAsNotify, SaveAsAsmHandler
 
-                    AddHandler swAsmDoc.DestroyNotify, DestroyAsmHandler
-                    AddHandler swAsmDoc.RegenPostNotify, RegenAsmHandler
+                    AddHandler swAsmDoc.DestroyNotify2, DestroyAsmHandler
+                    AddHandler swAsmDoc.RegenPostNotify2, RegenAsmHandler
                     AddHandler swAsmDoc.FileSaveNotify, SaveAsmHandler
                     AddHandler swAsmDoc.FileSaveAsNotify, SaveAsAsmHandler
                 Catch ex As Exception
@@ -189,8 +189,8 @@ Public Class TP_vlastnosti
             Case 1
                 Dim swPartDoc As PartDoc = CType(swModel, PartDoc) ' Convert swModel to part model type
                 Try
-                    RemoveHandler swPartDoc.DestroyNotify, DestroyPartHandler
-                    RemoveHandler swPartDoc.RegenPostNotify, RegenPartHandler
+                    RemoveHandler swPartDoc.DestroyNotify2, DestroyPartHandler
+                    RemoveHandler swPartDoc.RegenPostNotify2, RegenPartHandler
                     RemoveHandler swPartDoc.FileSaveNotify, SavePartHandler
                     RemoveHandler swPartDoc.FileSaveAsNotify, SaveAsPartHandler
                 Catch ex As Exception
@@ -200,8 +200,8 @@ Public Class TP_vlastnosti
             Case 2
                 Dim swAsmDoc As AssemblyDoc = CType(swModel, AssemblyDoc) ' Convert swModel to assembly model type
                 Try
-                    RemoveHandler swAsmDoc.DestroyNotify, DestroyAsmHandler
-                    RemoveHandler swAsmDoc.RegenPostNotify, RegenAsmHandler
+                    RemoveHandler swAsmDoc.DestroyNotify2, DestroyAsmHandler
+                    RemoveHandler swAsmDoc.RegenPostNotify2, RegenAsmHandler
                     RemoveHandler swAsmDoc.FileSaveNotify, SaveAsmHandler
                     RemoveHandler swAsmDoc.FileSaveAsNotify, SaveAsAsmHandler
                 Catch ex As Exception
@@ -214,8 +214,8 @@ Public Class TP_vlastnosti
     End Function
 
     Private Function SldWorks_RegenModel() As Integer
-        'MsgBox("regen")
-        RefreshTP()
+        MsgBox("regen")
+        'RefreshTP()
     End Function
 
     Private Function SldWorks_SaveModel() As Integer
@@ -223,8 +223,8 @@ Public Class TP_vlastnosti
     End Function
 
     Private Function SldWorks_CutListUpdate() As Integer
-        'MsgBox("cutlistupdate")
-        LoadCutlist()
+        MsgBox("cutlistupdate")
+        'LoadCutlist()
     End Function
 
     Private Sub RefreshTP()
