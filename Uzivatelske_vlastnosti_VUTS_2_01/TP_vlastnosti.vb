@@ -27,7 +27,6 @@ Public Class TP_vlastnosti
     Dim RegenPartHandler As New DPartDocEvents_RegenPostNotify2EventHandler(AddressOf SldWorks_RegenModel)
     Dim SavePartHandler As New DPartDocEvents_FileSaveNotifyEventHandler(AddressOf SldWorks_SaveModel)
     Dim SaveAsPartHandler As New DPartDocEvents_FileSaveAsNotifyEventHandler(AddressOf SldWorks_SaveModel)
-    Dim CutListUpdateHandler As New DPartDocEvents_WeldmentCutListUpdatePostNotifyEventHandler(AddressOf SldWorks_CutListUpdate)
     Dim DestroyAsmHandler As New DAssemblyDocEvents_DestroyNotify2EventHandler(AddressOf SldWorks_DestroyModel)
     Dim RegenAsmHandler As New DAssemblyDocEvents_RegenPostNotify2EventHandler(AddressOf SldWorks_RegenModel)
     Dim SaveAsmHandler As New DAssemblyDocEvents_FileSaveNotifyEventHandler(AddressOf SldWorks_SaveModel)
@@ -139,13 +138,11 @@ Public Class TP_vlastnosti
                     RemoveHandler swPartDoc.RegenPostNotify2, RegenPartHandler
                     RemoveHandler swPartDoc.FileSaveNotify, SavePartHandler
                     RemoveHandler swPartDoc.FileSaveAsNotify, SaveAsPartHandler
-                    RemoveHandler swPartDoc.WeldmentCutListUpdatePostNotify, CutListUpdateHandler
 
                     AddHandler swPartDoc.DestroyNotify2, DestroyPartHandler
                     AddHandler swPartDoc.RegenPostNotify2, RegenPartHandler
                     AddHandler swPartDoc.FileSaveNotify, SavePartHandler
                     AddHandler swPartDoc.FileSaveAsNotify, SaveAsPartHandler
-                    AddHandler swPartDoc.WeldmentCutListUpdatePostNotify, CutListUpdateHandler
                 Catch ex As Exception
                     Console.WriteLine(ex.Message)
                 End Try
@@ -173,14 +170,11 @@ Public Class TP_vlastnosti
 
         RefreshTP()
 
-        If CB_polot.Text = "TABULKA PŘÍŘEZŮ" Then
-            LoadCutlist()
-        End If
-
     End Function
 
     Private Function SldWorks_DestroyModel() As Integer
         If swApp.GetDocumentCount() = 1 Then
+            'MsgBox("destroy")
             ClearValues()
             SetDefaultSettings()
         End If
@@ -214,17 +208,11 @@ Public Class TP_vlastnosti
     End Function
 
     Private Function SldWorks_RegenModel() As Integer
-        MsgBox("regen")
-        'RefreshTP()
+        RefreshTP()
     End Function
 
     Private Function SldWorks_SaveModel() As Integer
         RefreshTP()
-    End Function
-
-    Private Function SldWorks_CutListUpdate() As Integer
-        MsgBox("cutlistupdate")
-        'LoadCutlist()
     End Function
 
     Private Sub RefreshTP()
@@ -646,6 +634,7 @@ Public Class TP_vlastnosti
         Select Case DocType
             Case 1
                 If CB_polot.Text = "TABULKA PŘÍŘEZŮ" Then
+                    LoadCutlist()
                     SetPartTabSetings()
 
                 Else
@@ -794,13 +783,6 @@ Public Class TP_vlastnosti
             End If
             swFeature = swFeature.GetNextFeature
         Loop
-
-        If poz = 0 Then
-            MsgBox("Díl nemá tabulku přířezů")
-            swCustProp.Add3("Polotovar", 30, "", 1)
-            RefreshTP()
-
-        End If
 
         swCustProp.Add3("Tabulka_prirezu", 30, CutList_atr, 1)
 
