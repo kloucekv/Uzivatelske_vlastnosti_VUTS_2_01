@@ -63,6 +63,9 @@ Partial Class TP_vlastnosti
         Me.COL_mat = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.COL_dod = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.COL_poz = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
+        Me.TB_hmotnost = New System.Windows.Forms.TextBox()
+        Me.L_kg = New System.Windows.Forms.Label()
+        Me.L_hmotnost = New System.Windows.Forms.Label()
         Me.SuspendLayout()
         '
         'B_kota
@@ -122,10 +125,10 @@ Partial Class TP_vlastnosti
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TB_stary.Enabled = False
         Me.TB_stary.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(238, Byte))
-        Me.TB_stary.Location = New System.Drawing.Point(119, 861)
+        Me.TB_stary.Location = New System.Drawing.Point(251, 861)
         Me.TB_stary.Margin = New System.Windows.Forms.Padding(4)
         Me.TB_stary.Name = "TB_stary"
-        Me.TB_stary.Size = New System.Drawing.Size(437, 23)
+        Me.TB_stary.Size = New System.Drawing.Size(305, 23)
         Me.TB_stary.TabIndex = 165
         '
         'L_stary
@@ -133,7 +136,7 @@ Partial Class TP_vlastnosti
         Me.L_stary.AutoSize = True
         Me.L_stary.Enabled = False
         Me.L_stary.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(238, Byte))
-        Me.L_stary.Location = New System.Drawing.Point(115, 838)
+        Me.L_stary.Location = New System.Drawing.Point(248, 836)
         Me.L_stary.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.L_stary.Name = "L_stary"
         Me.L_stary.Size = New System.Drawing.Size(86, 17)
@@ -544,10 +547,39 @@ Partial Class TP_vlastnosti
         Me.COL_poz.Text = "poz."
         Me.COL_poz.Width = 32
         '
+        'TB_hmotnost
+        '
+        Me.TB_hmotnost.Location = New System.Drawing.Point(129, 861)
+        Me.TB_hmotnost.Name = "TB_hmotnost"
+        Me.TB_hmotnost.ReadOnly = True
+        Me.TB_hmotnost.Size = New System.Drawing.Size(65, 22)
+        Me.TB_hmotnost.TabIndex = 174
+        '
+        'L_kg
+        '
+        Me.L_kg.AutoSize = True
+        Me.L_kg.Location = New System.Drawing.Point(195, 865)
+        Me.L_kg.Name = "L_kg"
+        Me.L_kg.Size = New System.Drawing.Size(23, 17)
+        Me.L_kg.TabIndex = 175
+        Me.L_kg.Text = "kg"
+        '
+        'L_hmotnost
+        '
+        Me.L_hmotnost.AutoSize = True
+        Me.L_hmotnost.Location = New System.Drawing.Point(126, 838)
+        Me.L_hmotnost.Name = "L_hmotnost"
+        Me.L_hmotnost.Size = New System.Drawing.Size(68, 17)
+        Me.L_hmotnost.TabIndex = 176
+        Me.L_hmotnost.Text = "Hmotnost"
+        '
         'TP_vlastnosti
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.Controls.Add(Me.L_hmotnost)
+        Me.Controls.Add(Me.L_kg)
+        Me.Controls.Add(Me.TB_hmotnost)
         Me.Controls.Add(Me.RB_tab)
         Me.Controls.Add(Me.TB_rozm2)
         Me.Controls.Add(Me.B_kota)
@@ -630,4 +662,7 @@ Partial Class TP_vlastnosti
     Friend WithEvents COL_mat As Windows.Forms.ColumnHeader
     Friend WithEvents COL_dod As Windows.Forms.ColumnHeader
     Friend WithEvents COL_poz As Windows.Forms.ColumnHeader
+    Friend WithEvents TB_hmotnost As Windows.Forms.TextBox
+    Friend WithEvents L_kg As Windows.Forms.Label
+    Friend WithEvents L_hmotnost As Windows.Forms.Label
 End Class

@@ -2,7 +2,6 @@
 Imports System.Runtime.InteropServices
 Imports SolidWorks.Interop.sldworks
 Imports SolidWorks.Interop.swconst
-Imports SolidWorks.Interop.swdocumentmgr
 
 
 <ComVisible(True)>
@@ -311,7 +310,17 @@ Public Class TP_vlastnosti
 
         CB_pozn6.Enabled = False
 
+        L_presnost.Enabled = False
+
         CB_presnost.Enabled = False
+
+        L_hmotnost.Enabled = False
+
+        TB_hmotnost.Enabled = False
+
+        L_kg.Enabled = False
+
+        L_stary.Enabled = False
 
         TB_stary.Enabled = False
 
@@ -401,9 +410,19 @@ Public Class TP_vlastnosti
 
         CB_pozn6.Enabled = True
 
+        L_presnost.Enabled = True
+
         CB_presnost.Enabled = True
 
+        L_stary.Enabled = True
+
         TB_stary.Enabled = True
+
+        L_hmotnost.Enabled = True
+
+        TB_hmotnost.Enabled = True
+
+        L_kg.Enabled = True
 
         B_obnovit.Enabled = False
 
@@ -494,9 +513,19 @@ Public Class TP_vlastnosti
 
         CB_pozn6.Enabled = True
 
+        L_presnost.Enabled = True
+
         CB_presnost.Enabled = True
 
+        L_stary.Enabled = True
+
         TB_stary.Enabled = True
+
+        L_hmotnost.Enabled = True
+
+        TB_hmotnost.Enabled = True
+
+        L_kg.Enabled = True
 
         B_obnovit.Enabled = False
 
@@ -586,9 +615,19 @@ Public Class TP_vlastnosti
 
         CB_pozn6.Enabled = True
 
+        L_presnost.Enabled = True
+
         CB_presnost.Enabled = True
 
+        L_stary.Enabled = True
+
         TB_stary.Enabled = True
+
+        L_hmotnost.Enabled = True
+
+        TB_hmotnost.Enabled = True
+
+        L_kg.Enabled = True
 
         B_obnovit.Enabled = False
 
@@ -629,6 +668,7 @@ Public Class TP_vlastnosti
         bool = swCustProp.Get4("Poznámka 5.", False, val, valout) : CB_pozn5.Text = val
         bool = swCustProp.Get4("Poznámka 6.", False, val, valout) : CB_pozn6.Text = val
         bool = swCustProp.Get4("Přesnost", False, val, valout) : CB_presnost.Text = val
+        bool = swCustProp.Get4("Hmotnost", False, val, valout) : TB_hmotnost.Text = valout
         bool = swCustProp.Get4("Starý výkres", False, val, valout) : TB_stary.Text = val
 
         Select Case DocType
@@ -666,6 +706,7 @@ Public Class TP_vlastnosti
         CB_pozn5.Text = ""
         CB_pozn6.Text = ""
         CB_presnost.Text = ""
+        TB_hmotnost.Text = ""
         TB_stary.Text = ""
         CutList_atr = ""
         LV_tab.Items.Clear()
@@ -675,9 +716,13 @@ Public Class TP_vlastnosti
 
         Dim swModelDocExt As ModelDocExtension
         Dim swCustProp As CustomPropertyManager
+        Dim swModelPath As String
+        Dim swModelName As String
 
         swModelDocExt = swModel.Extension
         swCustProp = swModelDocExt.CustomPropertyManager("")
+        swModelPath = swModel.GetPathName
+        swModelName = swModelPath.Substring(swModelPath.LastIndexOf("\") + 1)
 
         swCustProp.Add3("Materiál", 30, TB_mat.Text, 1)
         swCustProp.Add3("Norma - obj. číslo", 30, TB_nor.Text, 1)
@@ -692,6 +737,11 @@ Public Class TP_vlastnosti
         swCustProp.Add3("Poznámka 5.", 30, CB_pozn5.Text, 1)
         swCustProp.Add3("Poznámka 6.", 30, CB_pozn6.Text, 1)
         swCustProp.Add3("Přesnost", 30, CB_presnost.Text, 1)
+
+        If Not swModelName = Nothing Then
+            swCustProp.Add3("Hmotnost", 30, Chr(34) & "SW-Mass@" & swModelName & Chr(34), 1)
+        End If
+
         swCustProp.Add3("Starý výkres", 30, TB_stary.Text, 1)
         swCustProp.Add3("Tabulka_prirezu", 30, CutList_atr, 1)
 
@@ -1085,5 +1135,6 @@ Public Class TP_vlastnosti
         RefreshTP()
 
     End Sub
+
 
 End Class
