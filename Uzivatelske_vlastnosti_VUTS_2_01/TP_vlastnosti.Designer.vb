@@ -347,9 +347,9 @@ Partial Class TP_vlastnosti
         Me.L_dod.Location = New System.Drawing.Point(11, 273)
         Me.L_dod.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.L_dod.Name = "L_dod"
-        Me.L_dod.Size = New System.Drawing.Size(72, 17)
+        Me.L_dod.Size = New System.Drawing.Size(113, 17)
         Me.L_dod.TabIndex = 148
-        Me.L_dod.Text = "Dodavatel"
+        Me.L_dod.Text = "Dodavatel (SKP)"
         Me.L_dod.Visible = False
         '
         'TB_dod
@@ -396,9 +396,9 @@ Partial Class TP_vlastnosti
         Me.L_polot.Location = New System.Drawing.Point(11, 334)
         Me.L_polot.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.L_polot.Name = "L_polot"
-        Me.L_polot.Size = New System.Drawing.Size(68, 17)
+        Me.L_polot.Size = New System.Drawing.Size(134, 17)
         Me.L_polot.TabIndex = 144
-        Me.L_polot.Text = "Polotovar"
+        Me.L_polot.Text = "Polotovar (Název 1)"
         Me.L_polot.Visible = False
         '
         'L_nor
@@ -409,9 +409,9 @@ Partial Class TP_vlastnosti
         Me.L_nor.Location = New System.Drawing.Point(11, 216)
         Me.L_nor.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.L_nor.Name = "L_nor"
-        Me.L_nor.Size = New System.Drawing.Size(118, 17)
+        Me.L_nor.Size = New System.Drawing.Size(184, 17)
         Me.L_nor.TabIndex = 143
-        Me.L_nor.Text = "Norma - obj. číslo"
+        Me.L_nor.Text = "Norma - obj. číslo (Název 2)"
         '
         'L_mat
         '
@@ -421,9 +421,9 @@ Partial Class TP_vlastnosti
         Me.L_mat.Location = New System.Drawing.Point(11, 160)
         Me.L_mat.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.L_mat.Name = "L_mat"
-        Me.L_mat.Size = New System.Drawing.Size(58, 17)
+        Me.L_mat.Size = New System.Drawing.Size(124, 17)
         Me.L_mat.TabIndex = 142
-        Me.L_mat.Text = "Materiál"
+        Me.L_mat.Text = "Materiál (Název 3)"
         Me.L_mat.Visible = False
         '
         'L_typpol
@@ -549,16 +549,16 @@ Partial Class TP_vlastnosti
         '
         'TB_hmotnost
         '
-        Me.TB_hmotnost.Location = New System.Drawing.Point(129, 861)
+        Me.TB_hmotnost.Location = New System.Drawing.Point(136, 861)
         Me.TB_hmotnost.Name = "TB_hmotnost"
         Me.TB_hmotnost.ReadOnly = True
-        Me.TB_hmotnost.Size = New System.Drawing.Size(65, 22)
+        Me.TB_hmotnost.Size = New System.Drawing.Size(75, 22)
         Me.TB_hmotnost.TabIndex = 174
         '
         'L_kg
         '
         Me.L_kg.AutoSize = True
-        Me.L_kg.Location = New System.Drawing.Point(195, 865)
+        Me.L_kg.Location = New System.Drawing.Point(213, 864)
         Me.L_kg.Name = "L_kg"
         Me.L_kg.Size = New System.Drawing.Size(23, 17)
         Me.L_kg.TabIndex = 175
@@ -566,10 +566,9 @@ Partial Class TP_vlastnosti
         '
         'L_hmotnost
         '
-        Me.L_hmotnost.AutoSize = True
-        Me.L_hmotnost.Location = New System.Drawing.Point(126, 838)
+        Me.L_hmotnost.Location = New System.Drawing.Point(133, 839)
         Me.L_hmotnost.Name = "L_hmotnost"
-        Me.L_hmotnost.Size = New System.Drawing.Size(68, 17)
+        Me.L_hmotnost.Size = New System.Drawing.Size(72, 17)
         Me.L_hmotnost.TabIndex = 176
         Me.L_hmotnost.Text = "Hmotnost"
         '
