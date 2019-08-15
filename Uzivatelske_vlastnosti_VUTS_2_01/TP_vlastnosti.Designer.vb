@@ -326,9 +326,9 @@ Partial Class TP_vlastnosti
         Me.L_dod.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(238, Byte))
         Me.L_dod.Location = New System.Drawing.Point(8, 222)
         Me.L_dod.Name = "L_dod"
-        Me.L_dod.Size = New System.Drawing.Size(86, 13)
+        Me.L_dod.Size = New System.Drawing.Size(56, 13)
         Me.L_dod.TabIndex = 148
-        Me.L_dod.Text = "Dodavatel (SKP)"
+        Me.L_dod.Text = "Dodavatel"
         Me.L_dod.Visible = False
         '
         'TB_dod
@@ -371,9 +371,9 @@ Partial Class TP_vlastnosti
         Me.L_polot.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(238, Byte))
         Me.L_polot.Location = New System.Drawing.Point(8, 271)
         Me.L_polot.Name = "L_polot"
-        Me.L_polot.Size = New System.Drawing.Size(101, 13)
+        Me.L_polot.Size = New System.Drawing.Size(52, 13)
         Me.L_polot.TabIndex = 144
-        Me.L_polot.Text = "Polotovar (Název 1)"
+        Me.L_polot.Text = "Polotovar"
         Me.L_polot.Visible = False
         '
         'L_nor
@@ -383,9 +383,9 @@ Partial Class TP_vlastnosti
         Me.L_nor.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(238, Byte))
         Me.L_nor.Location = New System.Drawing.Point(8, 176)
         Me.L_nor.Name = "L_nor"
-        Me.L_nor.Size = New System.Drawing.Size(139, 13)
+        Me.L_nor.Size = New System.Drawing.Size(90, 13)
         Me.L_nor.TabIndex = 143
-        Me.L_nor.Text = "Norma - obj. číslo (Název 2)"
+        Me.L_nor.Text = "Norma - obj. číslo"
         '
         'L_mat
         '
@@ -518,7 +518,7 @@ Partial Class TP_vlastnosti
         'TB_hmotnost
         '
         Me.TB_hmotnost.Location = New System.Drawing.Point(102, 700)
-        Me.TB_hmotnost.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.TB_hmotnost.Margin = New System.Windows.Forms.Padding(2)
         Me.TB_hmotnost.Name = "TB_hmotnost"
         Me.TB_hmotnost.ReadOnly = True
         Me.TB_hmotnost.Size = New System.Drawing.Size(57, 20)
