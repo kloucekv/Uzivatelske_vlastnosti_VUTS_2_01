@@ -13,13 +13,13 @@ Imports System.Collections.Generic
 Imports System.Diagnostics
 Imports SolidWorks.Interop
 
-<Guid("ab4f9440-15f5-4fb3-8b14-4c820ea6a65b")>
-<ComVisible(True)> _
-<SwAddin( _
-    Description:="Uživatelské vlastnosti VÚTS", _
-    Title:="Uživatelské vlastnosti VÚTS", _
-    LoadAtStartup:=True _
-    )> _
+<Guid("6d462a18-e49c-49d6-bb0a-ccefe1d1d933")>
+<ComVisible(True)>
+<SwAddin(
+    Description:="mySWtools",
+    Title:="mySWtools",
+    LoadAtStartup:=True
+    )>
 Public Class SwAddin
     Implements SolidWorks.Interop.swpublished.SwAddin
 
@@ -168,7 +168,7 @@ Public Class SwAddin
 
     Public Sub AddTaskPane()
 
-        myTaskPaneView = SwApp.CreateTaskpaneView2("", "Uživatelské vlastnosti VÚTS")
+        myTaskPaneView = SwApp.CreateTaskpaneView2("", "mySWtools")
 
         myTaskpaneHost = myTaskPaneView.AddControl("Uzivatelske_vlastnosti_VUTS_2_01", "")
 
